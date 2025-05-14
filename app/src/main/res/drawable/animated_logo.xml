@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/logo_vector">
+
+    <target
+        android:name="logo_path"
+        android:animation="@animator/logo_path_animator" />
+        
+    <target
+        android:name="logo_group"
+        android:animation="@animator/logo_scale_animator" />
+</animated-vector>

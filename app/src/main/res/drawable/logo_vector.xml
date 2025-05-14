@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+    
+    <group
+        android:name="logo_group"
+        android:pivotX="120"
+        android:pivotY="120">
+        
+        <path
+            android:name="logo_path"
+            android:fillColor="#FFFFFF"
+            android:pathData="M120,60c-8.3,0 -15,6.7 -15,15v45c0,8.3 6.7,15 15,15h45c8.3,0 15,-6.7 15,-15V75c0,-8.3 -6.7,-15 -15,-15H120zM75,120c-8.3,0 -15,6.7 -15,15v45c0,8.3 6.7,15 15,15h45c8.3,0 15,-6.7 15,-15v-45c0,-8.3 -6.7,-15 -15,-15H75z" />
+            
+        <!-- Blue plus at intersection, no orange circle -->
+        <path
+            android:name="plus_path"
+            android:fillColor="@color/accent"
+            android:pathData="M120,112h-8v-8c0,-4.4 -3.6,-8 -8,-8s-8,3.6 -8,8v8h-8c-4.4,0 -8,3.6 -8,8s3.6,8 8,8h8v8c0,4.4 3.6,8 8,8s8,-3.6 8,-8v-8h8c4.4,0 8,-3.6 8,-8S124.4,112 120,112z" />
+    </group>
+</vector>

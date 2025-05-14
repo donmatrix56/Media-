@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/img_playlist_thumbnail"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@color/light_gray"
+            android:contentDescription="@string/desc_playlist_thumbnail"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_playlist" />
+
+        <TextView
+            android:id="@+id/txt_playlist_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
+            android:textColor="@color/primary_text"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+            app:layout_constraintStart_toEndOf="@+id/img_playlist_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/img_playlist_thumbnail"
+            tools:text="My Favorite Songs" />
+
+        <TextView
+            android:id="@+id/txt_playlist_item_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+            android:textColor="@color/secondary_text"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+            app:layout_constraintStart_toEndOf="@+id/img_playlist_thumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/txt_playlist_name"
+            tools:text="This is a description of the playlist" />
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_delete_playlist"
+            android:padding="12dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/accent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

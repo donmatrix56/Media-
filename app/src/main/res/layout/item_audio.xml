@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/audio_thumbnail"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:scaleType="centerCrop"
+            android:background="@color/primary_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary"
+            tools:src="@drawable/ic_music" />
+
+        <TextView
+            android:id="@+id/audio_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
+            android:textColor="@color/primary_text"
+            app:layout_constraintEnd_toStartOf="@+id/audio_menu"
+            app:layout_constraintStart_toEndOf="@+id/audio_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Audio Track Title" />
+
+        <TextView
+            android:id="@+id/audio_artist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+            android:textColor="@color/secondary_text"
+            app:layout_constraintEnd_toStartOf="@+id/audio_menu"
+            app:layout_constraintStart_toEndOf="@+id/audio_thumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/audio_title"
+            tools:text="Artist Name" />
+
+        <TextView
+            android:id="@+id/audio_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+            android:textColor="@color/secondary_text"
+            app:layout_constraintStart_toEndOf="@+id/audio_thumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/audio_artist"
+            tools:text="03:45" />
+
+        <ImageButton
+            android:id="@+id/audio_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="More options"
+            android:src="@drawable/ic_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/secondary_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

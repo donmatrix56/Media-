@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="140dp"
+    android:layout_height="180dp"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/surface"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="140dp"
+        android:layout_height="180dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_media_item_minimal"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/media_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/meta_overlay"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/bg_meta_chamfered_orange">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/media_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
+                    android:textColor="@android:color/white" />
+                <TextView
+                    android:id="@+id/media_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/media_type_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_video" />
+
+        <ImageView
+            android:id="@+id/media_remove"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_remove_circle"
+            android:padding="4dp"
+            android:src="@drawable/ic_remove"
+            android:contentDescription="Remove"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

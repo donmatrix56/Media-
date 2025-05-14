@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/splash_gradient_background" />
+    <item android:gravity="center">
+        <bitmap 
+            android:gravity="center"
+            android:src="@drawable/media_plus_text" />
+    </item>
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="center"
+        android:top="40dp">
+        <animated-vector android:drawable="@drawable/animated_logo" />
+    </item>
+</layer-list>

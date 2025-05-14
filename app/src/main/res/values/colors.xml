@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FF5722</color>
+    <color name="primary_dark">#E64A19</color>
+    <color name="primary_light">#FFCCBC</color>
+    <color name="accent">#03A9F4</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>    <color name="divider">#BDBDBD</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    <color name="light_gray">#D3D3D3</color>
+
+    <!-- Media Player Controls -->
+    <color name="player_control_bg">#80000000</color>
+    <color name="player_progress_color">#FF5722</color>
+    <color name="player_played_color">#E64A19</color>
+    <color name="player_buffered_color">#FFCCBC</color>
+</resources>

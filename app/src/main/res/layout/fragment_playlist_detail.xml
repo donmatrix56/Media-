@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.playlists.PlaylistDetailFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:titleTextColor="@color/white"
+        tools:title="Playlist Name" />
+
+    <ImageView
+        android:id="@+id/img_playlist_cover"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/desc_playlist_thumbnail"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:srcCompat="@drawable/ic_playlist" />
+
+    <TextView
+        android:id="@+id/txt_playlist_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MediaPlus.Headline2"
+        android:textColor="@color/primary_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_playlist_cover"
+        tools:text="My Favorite Songs" />
+
+    <TextView
+        android:id="@+id/txt_playlist_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.MediaPlus.Body1"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_playlist_name"
+        tools:text="This is a description of the playlist" />
+
+    <TextView
+        android:id="@+id/txt_media_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_playlist_description"
+        tools:text="5 tracks" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/action_play_all"
+        app:icon="@drawable/ic_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_media_count" />
+
+    <TextView
+        android:id="@+id/txt_tracks_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/header_tracks"
+        android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
+        android:textColor="@color/primary_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_play" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_playlist_items"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_tracks_header"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_audio" />
+
+    <LinearLayout
+        android:id="@+id/empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_tracks_header"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_music"
+            app:tint="@color/secondary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/msg_no_tracks_in_playlist"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="@string/msg_add_tracks_to_playlist_tip"
+            android:textAppearance="@style/TextAppearance.MediaPlus.Body2"
+            android:textColor="@color/secondary_text" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Media+</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_videos">Videos</string>
+    <string name="nav_music">Music</string>
+    <string name="nav_playlists">Playlists</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Media Actions -->
+    <string name="action_play">Play</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_next">Next</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_repeat">Repeat</string>
+    <string name="action_shuffle">Shuffle</string>
+    <string name="action_add_to_playlist">Add to Playlist</string>
+    <string name="action_create_playlist">Create Playlist</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_share">Share</string>
+    <string name="action_search">Search</string>
+    <string name="action_sort">Sort</string>
+    
+    <!-- Audio Player Actions -->
+    <string name="action_equalizer">Equalizer</string>
+    <string name="action_lyrics">Lyrics</string>
+    
+    <!-- Messages -->
+    <string name="msg_no_media_found">No media files found</string>
+    <string name="msg_loading">Loading…</string>
+    <string name="msg_permission_required">Storage permission required</string>
+    <string name="msg_grant_permission">Please grant storage permission to access media files</string>
+    <string name="msg_error_playback">Error playing media</string>
+    
+    <!-- Dialogs -->
+    <string name="dialog_create_playlist">Create Playlist</string>
+    <string name="dialog_playlist_name">Playlist Name</string>
+    <string name="dialog_confirm_delete">Are you sure you want to delete?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save">Save</string>
+    
+    <!-- Settings -->
+    <string name="settings_theme">App Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System Default</string>
+    <string name="settings_video_quality">Default Video Quality</string>    <string name="settings_audio_quality">Audio Quality</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    
+    <!-- Playlists -->
+    <string name="playlist_no_description">No description</string>
+    <string name="desc_playlist_thumbnail">Playlist thumbnail</string>
+    <string name="desc_empty_playlist">Empty playlist</string>
+    <string name="msg_no_playlists">No playlists yet</string>
+    <string name="msg_create_playlist_tip">Create your first playlist using the + button below</string>
+    <string name="msg_no_tracks_in_playlist">No tracks in this playlist</string>
+    <string name="msg_add_tracks_to_playlist_tip">Add songs to this playlist from the Music tab by using the options menu</string>
+    <string name="msg_added_to_playlist">Added \"%1$s\" to playlist \"%2$s\"</string>
+    <string name="msg_created_playlist_with_media">Created playlist \"%1$s\" with \"%2$s\"</string>
+    <string name="msg_no_playlists_create_one">You don\'t have any playlists yet. Create one now!</string>
+    <string name="dialog_add_to_playlist">Add to Playlist</string>
+    <string name="action_create_new_playlist">Create New Playlist</string>    <string name="action_delete_playlist">Delete playlist</string>
+    <string name="hint_playlist_name">Playlist Name</string>
+    <string name="hint_playlist_description">Description (optional)</string>
+    <string name="action_play_all">Play All</string>
+    <string name="header_tracks">Tracks</string>
+    
+    <!-- Search -->
+    <string name="hint_search_media">Search for music, videos, or playlists</string>
+    <string name="msg_no_search_results">No results found</string>
+    <string name="msg_search_hint">Type to start searching</string>
+    
+    <plurals name="media_count">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+
+    <string name="tagline">Powered by SphereTech.inc</string>
+</resources>
