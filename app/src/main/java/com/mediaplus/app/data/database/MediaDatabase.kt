@@ -15,7 +15,7 @@ import com.mediaplus.app.data.model.PlaylistMediaCrossRef
         Playlist::class,
         PlaylistMediaCrossRef::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class MediaDatabase : RoomDatabase() {

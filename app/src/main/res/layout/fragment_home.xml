@@ -16,20 +16,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:orientation="horizontal"        android:gravity="center_vertical"
         android:paddingTop="8dp"
         android:paddingBottom="4dp">
+        
         <TextView
             android:id="@+id/title_recent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recent Files"
             android:textColor="@color/primary_text"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
             android:paddingStart="20dp"
             android:paddingEnd="8dp" />
+            
         <ImageButton
             android:id="@+id/btn_sort_recent"
             android:layout_width="40dp"
@@ -38,33 +40,11 @@
             android:src="@drawable/ic_filter_list"
             android:contentDescription="Sort"
             android:tint="@color/primary_text" />
-        <LinearLayout
-            android:id="@+id/search_bar_recent"
+        <Space
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <ImageButton
-                android:id="@+id/btn_search_recent"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Search"
-                android:tint="@color/primary_text" />
-            <EditText
-                android:id="@+id/edit_search_recent"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Search..."
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:visibility="gone" />
-        </LinearLayout>
+            android:layout_height="40dp"            android:layout_weight="1" />
     </LinearLayout>
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_recent"
         android:layout_width="match_parent"
@@ -73,29 +53,33 @@
         android:maxHeight="180dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        tools:itemCount="5"
+        android:layout_marginBottom="8dp"        tools:itemCount="5"
         tools:listitem="@layout/item_media" />
-
+        
     <!-- Videos Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:orientation="horizontal"        android:gravity="center_vertical"
         android:paddingTop="16dp"
         android:paddingBottom="4dp">
+        
         <TextView
             android:id="@+id/title_videos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Videos"
             android:textColor="@color/primary_text"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
             android:paddingStart="20dp"
             android:paddingEnd="8dp" />
+            
         <ImageButton
             android:id="@+id/btn_sort_videos"
             android:layout_width="40dp"
@@ -104,33 +88,21 @@
             android:src="@drawable/ic_filter_list"
             android:contentDescription="Sort"
             android:tint="@color/primary_text" />
-        <LinearLayout
-            android:id="@+id/search_bar_videos"
+        <Space
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <ImageButton
-                android:id="@+id/btn_search_videos"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Search"
-                android:tint="@color/primary_text" />
-            <EditText
-                android:id="@+id/edit_search_videos"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Search..."
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:visibility="gone" />
-        </LinearLayout>
+            android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/btn_refresh_videos"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="Scan Videos"
+            android:tint="@color/primary_text"
+            android:paddingEnd="16dp" />
     </LinearLayout>
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_videos"
         android:layout_width="match_parent"
@@ -139,8 +111,11 @@
         android:maxHeight="180dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
+        android:layout_marginBottom="8dp"
         tools:itemCount="5"
         tools:listitem="@layout/item_video" />
 
@@ -152,16 +127,19 @@
         android:gravity="center_vertical"
         android:paddingTop="16dp"
         android:paddingBottom="4dp">
+        
         <TextView
             android:id="@+id/title_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Audio"
             android:textColor="@color/primary_text"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:letterSpacing="0.02"
             android:fontFamily="sans-serif-medium"
             android:paddingStart="20dp"
             android:paddingEnd="8dp" />
+            
         <ImageButton
             android:id="@+id/btn_sort_music"
             android:layout_width="40dp"
@@ -170,41 +148,32 @@
             android:src="@drawable/ic_filter_list"
             android:contentDescription="Sort"
             android:tint="@color/primary_text" />
-        <LinearLayout
-            android:id="@+id/search_bar_music"
+            
+        <Space
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <ImageButton
-                android:id="@+id/btn_search_music"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Search"
-                android:tint="@color/primary_text" />
-            <EditText
-                android:id="@+id/edit_search_music"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Search..."
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:visibility="gone" />
-        </LinearLayout>
+            android:layout_weight="1" />
+            
+        <ImageButton
+            android:id="@+id/btn_refresh_music"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="Scan Audio"
+            android:tint="@color/primary_text"
+            android:paddingEnd="16dp" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
+      <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="120dp"
+        android:minHeight="196dp"
         android:maxHeight="240dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
         tools:itemCount="5"

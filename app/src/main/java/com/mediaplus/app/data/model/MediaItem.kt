@@ -17,7 +17,8 @@ data class MediaItem(
     val thumbnailPath: String? = null,
     val dateAdded: Long = 0,
     val size: Long = 0,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val lastPlayed: Long = 0
 )
 
 enum class MediaType {

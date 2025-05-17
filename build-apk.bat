@@ -73,5 +73,3 @@ REM Restore original JAVA_HOME before endlocal so it persists if needed
 set "JAVA_HOME=%JAVA_HOME_ORIG%"
 endlocal
 exit /b %ERRORLEVEL%
-
-;

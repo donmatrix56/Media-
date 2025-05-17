@@ -234,11 +234,15 @@ class AudioPlayerActivity : AppCompatActivity() {
                 val dataSourceFactory = DefaultDataSource.Factory(this@AudioPlayerActivity)
                 val mediaSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(MediaItem.fromUri(Uri.parse(mediaItem.uri)))
-
                 player.setMediaSource(mediaSource)
                 player.prepare()
                 player.playWhenReady = playWhenReady
                 player.seekTo(currentPosition)
+                
+                // Update lastPlayed timestamp
+                withContext(Dispatchers.IO) {
+                    mediaRepository.updateLastPlayed(mediaItemId!!)
+                }
             } else {
                 finish()
             }

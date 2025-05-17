@@ -17,13 +17,17 @@ class MediaPlusApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        
-        // Initialize database
+          // Initialize database
         database = Room.databaseBuilder(
             applicationContext,
             MediaDatabase::class.java,
             "media_database"
         )
+            .addMigrations(
+                androidx.room.migration.Migration(2, 3) { database ->
+                    database.execSQL("ALTER TABLE media_items ADD COLUMN lastPlayed INTEGER NOT NULL DEFAULT 0")
+                }
+            )
             .fallbackToDestructiveMigration()
             .build()
     }

@@ -13,8 +13,8 @@ import com.mediaplus.app.databinding.ItemMediaBinding
 import java.util.concurrent.TimeUnit
 
 class MediaAdapter(
-    private val onItemClick: (MediaItem) -> Unit,
-    private val onRemoveClick: (MediaItem) -> Unit
+    private val onItemClick: (MediaItem) -> Unit,    private val onRemoveClick: (MediaItem) -> Unit,
+    private val isRecentAdapter: Boolean = false
 ) : ListAdapter<MediaItem, MediaAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,9 +40,7 @@ class MediaAdapter(
                     onItemClick(getItem(position))
                 }
             }
-        }
-
-        fun bind(mediaItem: MediaItem) {
+        }        fun bind(mediaItem: MediaItem) {
             binding.mediaTitle.text = mediaItem.title
             
             // Set subtitle based on media type
@@ -54,18 +52,81 @@ class MediaAdapter(
             
             // Set appropriate icon based on media type
             val iconRes = if (mediaItem.mediaType == MediaType.AUDIO) R.drawable.ic_music else R.drawable.ic_video
-            
-            // Load thumbnail
-            Glide.with(binding.root.context)
-                .load(mediaItem.thumbnailPath ?: mediaItem.uri)
-                .placeholder(iconRes)
-                .error(iconRes)
-                .apply { if (mediaItem.mediaType == MediaType.AUDIO) fitCenter() else centerCrop() }
-                .into(binding.mediaThumbnail)
-
-            // Set remove click listener
-            binding.mediaRemove.setOnClickListener {
-                onRemoveClick(mediaItem)
+              // Background gradient visibility
+            if (mediaItem.thumbnailPath.isNullOrBlank()) {
+                binding.backgroundGradient.visibility = android.view.View.VISIBLE
+                
+                if (mediaItem.mediaType == MediaType.VIDEO && mediaItem.path.startsWith("content")) {
+                    // For videos without thumbnails, extract a frame from the video
+                    binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                    binding.backgroundGradient.visibility = android.view.View.VISIBLE
+                    
+                    try {
+                        val retriever = android.media.MediaMetadataRetriever()
+                        retriever.setDataSource(binding.root.context, android.net.Uri.parse(mediaItem.uri))
+                        
+                        // Get a frame from the video (at 20% of the duration for a good representative frame)
+                        val duration = retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0L
+                        val timeUs = (duration * 1000L / 5) // 20% of the way through
+                        
+                        val bitmap = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O_MR1) {
+                            retriever.getScaledFrameAtTime(timeUs, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC, 
+                                                          binding.mediaThumbnail.width, binding.mediaThumbnail.height)
+                        } else {
+                            retriever.getFrameAtTime(timeUs, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                        }
+                        
+                        if (bitmap != null) {
+                            binding.mediaThumbnail.setImageBitmap(bitmap)
+                            retriever.release()
+                        } else {
+                            // Fall back to icon if frame extraction fails
+                            binding.mediaThumbnail.setImageResource(iconRes)
+                            binding.mediaThumbnail.clearColorFilter()
+                        }
+                    } catch (e: Exception) {
+                        // On error, display the icon
+                        binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER
+                        binding.mediaThumbnail.setImageResource(iconRes)
+                        binding.mediaThumbnail.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
+                } else {
+                    // For audio or non-video files without thumbnails, display icon
+                    binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER
+                    binding.mediaThumbnail.setImageResource(iconRes)
+                    binding.mediaThumbnail.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
+                }
+            } else {
+                binding.backgroundGradient.visibility = android.view.View.GONE
+                binding.mediaThumbnail.clearColorFilter()
+                
+                // Load thumbnail
+                Glide.with(binding.root.context)
+                    .load(mediaItem.thumbnailPath ?: mediaItem.uri)
+                    .placeholder(iconRes)
+                    .error(iconRes)
+                    .apply { if (mediaItem.mediaType == MediaType.AUDIO) fitCenter() else centerCrop() }
+                    .into(binding.mediaThumbnail)
+            }// Configure remove button
+            binding.mediaRemove.apply {
+                // Make remove button more prominent and always visible for recent items
+                if (isRecentAdapter) {
+                    visibility = android.view.View.VISIBLE
+                    alpha = 0.85f
+                    
+                    // Apply a nice animation when showing the remove button
+                    if (this.animation == null) {
+                        val fadeIn = android.view.animation.AlphaAnimation(0.0f, 1.0f)
+                        fadeIn.duration = 300
+                        this.startAnimation(fadeIn)
+                    }
+                } else {
+                    visibility = android.view.View.GONE
+                }
+                
+                setOnClickListener {
+                    onRemoveClick(mediaItem)
+                }
             }
         }
         

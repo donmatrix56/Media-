@@ -14,9 +14,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel : ViewModel() {
     
     private val mediaRepository = MediaRepository()
-    
-    // LiveData for recent media
-    val recentMedia: LiveData<List<MediaItem>> = mediaRepository.getAllMediaItems()
+      // LiveData for recent media
+    val recentMedia: LiveData<List<MediaItem>> = mediaRepository.getRecentlyPlayedItems()
     
     // LiveData for videos
     val videos: LiveData<List<MediaItem>> = mediaRepository.getMediaItemsByType(MediaType.VIDEO)
@@ -59,15 +58,28 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             mediaRepository.deleteMediaItem(mediaItem)
         }
-    }
-      // Remove item from recent list only
+    }      // Remove item from recent list only
     fun removeFromRecent(mediaItem: MediaItem) {
-        mediaRepository.removeFromRecent(mediaItem.id)
+        viewModelScope.launch {
+            mediaRepository.removeFromRecent(mediaItem.id)
+        }
     }
-    
-    fun scanMediaFiles(context: Context) {
+      fun scanMediaFiles(context: Context) {
         viewModelScope.launch {
             mediaRepository.scanMediaFiles(context)
+        }
+    }
+      // Scan for videos only - faster than scanning all media
+    fun scanVideoFiles(context: Context) {
+        viewModelScope.launch {
+            mediaRepository.scanVideoFilesOnly(context)
+        }
+    }
+    
+    // Scan for audio only - faster than scanning all media
+    fun scanAudioFiles(context: Context) {
+        viewModelScope.launch {
+            mediaRepository.scanAudioFilesOnly(context)
         }
     }
     

@@ -7,9 +7,11 @@ import com.mediaplus.app.data.model.MediaType
 
 @Dao
 interface MediaItemDao {
+      @Query("SELECT * FROM media_items")
+    fun getAllMediaItems(): LiveData<List<MediaItem>>
     
     @Query("SELECT * FROM media_items")
-    fun getAllMediaItems(): LiveData<List<MediaItem>>
+    suspend fun getAllMediaItemsSync(): List<MediaItem>
     
     @Query("SELECT * FROM media_items WHERE mediaType = :mediaType")
     fun getMediaItemsByType(mediaType: MediaType): LiveData<List<MediaItem>>
@@ -28,14 +30,15 @@ interface MediaItemDao {
     
     @Update
     suspend fun updateMediaItem(mediaItem: MediaItem)
-    
-    @Query("SELECT media_items.* FROM media_items INNER JOIN playlist_media_cross_ref ON media_items.id = playlist_media_cross_ref.mediaItemId WHERE playlist_media_cross_ref.playlistId = :playlistId ORDER BY playlist_media_cross_ref.position")
+      @Query("SELECT media_items.* FROM media_items INNER JOIN playlist_media_cross_ref ON media_items.id = playlist_media_cross_ref.mediaItemId WHERE playlist_media_cross_ref.playlistId = :playlistId ORDER BY playlist_media_cross_ref.position")
     suspend fun getMediaItemsForPlaylistSync(playlistId: Long): List<MediaItem>
+    
+    @Query("SELECT * FROM media_items WHERE lastPlayed > 0 ORDER BY lastPlayed DESC")
+    fun getRecentlyPlayedItems(): LiveData<List<MediaItem>>
     
     @Delete
     suspend fun deleteMediaItem(mediaItem: MediaItem)
-    
-    @Query("DELETE FROM media_items WHERE id = :mediaItemId")
+      @Query("DELETE FROM media_items WHERE id = :mediaItemId")
     suspend fun deleteMediaItemById(mediaItemId: String)
     
     @Query("DELETE FROM media_items WHERE uri LIKE 'content://com.android.externalstorage.documents/%' OR uri LIKE 'content://com.android.providers.media.documents/%'")

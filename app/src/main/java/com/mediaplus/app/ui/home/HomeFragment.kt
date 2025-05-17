@@ -13,17 +13,15 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import com.mediaplus.app.data.model.MediaType
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.inputmethod.InputMethodManager
 import android.content.Context
 import android.animation.ObjectAnimator
 import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mediaplus.app.R
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class HomeFragment : Fragment() {
 
@@ -47,10 +45,22 @@ class HomeFragment : Fragment() {
             )
             viewModel.addMediaFromUri(requireContext(), it, MediaType.AUDIO)
         }
+    }    // Search functionality removed
+    private val requestVideoPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            viewModel.scanVideoFiles(requireContext())
+        } else {
+            android.widget.Toast.makeText(requireContext(), "Permission denied. Cannot scan videos.", android.widget.Toast.LENGTH_SHORT).show()
+        }
     }
-
-    private var isSearchVisible = false
-    private var searchQuery: String = ""
+    
+    private val requestAudioPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            viewModel.scanAudioFiles(requireContext())
+        } else {
+            android.widget.Toast.makeText(requireContext(), "Permission denied. Cannot scan audio.", android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,85 +86,85 @@ class HomeFragment : Fragment() {
         setupRecentAdapter()
         setupVideoAdapter()
         setupMusicAdapter()
-        
         // --- Sort and Search Logic ---
         val sortOptions = arrayOf("Date Created", "Most Played", "A-Z", "Size (Big to Small)")
-        val sortColors = ContextCompat.getColor(requireContext(), R.color.primary)
+        
         // Recent
         binding.btnSortRecent.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sort Recent Files")
-                .setItems(sortOptions) { _, which ->
-                    viewModel.sortRecent(sortOptions[which])
-                }.create()
-            dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(sortColors)
-        }
-        binding.btnSearchRecent.setOnClickListener {
-            val edit = binding.editSearchRecent
-            edit.visibility = View.VISIBLE
-            edit.requestFocus()
-            edit.setSelection(edit.text?.length ?: 0)
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edit, InputMethodManager.SHOW_IMPLICIT)
-        }
-        binding.editSearchRecent.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // TODO: Filter recent list by text
+            val dialog = SortOptionsDialog(
+                requireContext(),
+                "Sort Recent Files",
+                sortOptions
+            ) { selectedOption ->
+                viewModel.sortRecent(selectedOption)
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        // Videos
+            dialog.show()
+        }
+          // Videos
         binding.btnSortVideos.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sort Videos")
-                .setItems(sortOptions) { _, which ->
-                    viewModel.sortVideos(sortOptions[which])
-                }.create()
-            dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(sortColors)
-        }
-        binding.btnSearchVideos.setOnClickListener {
-            val edit = binding.editSearchVideos
-            edit.visibility = View.VISIBLE
-            edit.requestFocus()
-            edit.setSelection(edit.text?.length ?: 0)
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edit, InputMethodManager.SHOW_IMPLICIT)
-        }
-        binding.editSearchVideos.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // TODO: Filter videos list by text
+            val dialog = SortOptionsDialog(
+                requireContext(),
+                "Sort Videos",
+                sortOptions
+            ) { selectedOption ->
+                viewModel.sortVideos(selectedOption)
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        // Music
+            dialog.show()
+        }          // Scan videos button
+        binding.root.findViewById<View?>(R.id.btn_refresh_videos)?.let { btn ->
+            btn.setOnClickListener {
+                animateRefreshButton(btn)
+                if (hasVideoScanPermission()) {
+                    viewModel.scanVideoFiles(requireContext())
+                } else {
+                    if (shouldShowRequestPermissionRationale(getVideoScanPermission())) {
+                        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                            .setTitle("Permission Required")
+                            .setMessage("Media+ needs permission to access your videos in order to scan and display them.")
+                            .setPositiveButton("Allow") { _, _ ->
+                                requestVideoPermissionLauncher.launch(getVideoScanPermission())
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+                    } else {
+                        requestVideoPermissionLauncher.launch(getVideoScanPermission())
+                    }
+                }
+            }
+        }
+          // Music
         binding.btnSortMusic.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sort Audio")
-                .setItems(sortOptions) { _, which ->
-                    viewModel.sortMusic(sortOptions[which])
-                }.create()
-            dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(sortColors)
-        }
-        binding.btnSearchMusic.setOnClickListener {
-            val edit = binding.editSearchMusic
-            edit.visibility = View.VISIBLE
-            edit.requestFocus()
-            edit.setSelection(edit.text?.length ?: 0)
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edit, InputMethodManager.SHOW_IMPLICIT)
-        }
-        binding.editSearchMusic.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // TODO: Filter music list by text
+            val dialog = SortOptionsDialog(
+                requireContext(),
+                "Sort Audio",
+                sortOptions
+            ) { selectedOption ->
+                viewModel.sortMusic(selectedOption)
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+            dialog.show()
+        }
+          // Scan audio button
+        binding.root.findViewById<View?>(R.id.btn_refresh_music)?.let { btn ->
+            btn.setOnClickListener {
+                animateRefreshButton(btn)
+                if (hasAudioScanPermission()) {
+                    viewModel.scanAudioFiles(requireContext())
+                } else {
+                    if (shouldShowRequestPermissionRationale(getAudioScanPermission())) {
+                        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                            .setTitle("Permission Required")
+                            .setMessage("Media+ needs permission to access your audio files in order to scan and display them.")
+                            .setPositiveButton("Allow") { _, _ ->
+                                requestAudioPermissionLauncher.launch(getAudioScanPermission())
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+                    } else {
+                        requestAudioPermissionLauncher.launch(getAudioScanPermission())
+                    }
+                }
+            }
+        }
 
         // Observe sorted lists
         viewModel.sortedRecent.observe(viewLifecycleOwner) { items ->
@@ -180,9 +190,7 @@ class HomeFragment : Fragment() {
     private fun setFirstLaunchDone() {
         val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("first_launch", false).apply()
-    }
-
-    private fun setupRecentAdapter() {
+    }    private fun setupRecentAdapter() {
         val recentAdapter = MediaAdapter(
             onItemClick = { mediaItem ->
                 // Handle click based on media type
@@ -206,11 +214,19 @@ class HomeFragment : Fragment() {
             },
             onRemoveClick = { mediaItem ->
                 viewModel.removeFromRecent(mediaItem)
-            }
+            },
+            isRecentAdapter = true
         )
-        
         binding.recyclerRecent.adapter = recentAdapter
         binding.recyclerRecent.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerRecent.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
+                outRect.right = 16
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    outRect.left = 16
+                }
+            }
+        })
     }
     
     private fun setupVideoAdapter() {
@@ -226,9 +242,16 @@ class HomeFragment : Fragment() {
                 viewModel.deleteMediaItem(mediaItem)
             }
         )
-        
         binding.recyclerVideos.adapter = videoAdapter
         binding.recyclerVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerVideos.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
+                outRect.right = 16
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    outRect.left = 16
+                }
+            }
+        })
     }
     
     private fun setupMusicAdapter() {
@@ -244,11 +267,129 @@ class HomeFragment : Fragment() {
                 viewModel.deleteMediaItem(mediaItem)
             }
         )
-        
         binding.recyclerMusic.adapter = musicAdapter
         binding.recyclerMusic.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerMusic.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
+                outRect.right = 16
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    outRect.left = 16
+                }
+            }
+        })
+    }    // Animate the refresh button during scanning with a modern animation
+    private fun animateRefreshButton(button: View) {
+        // Disable the button during scanning
+        button.isEnabled = false
+        
+        // Ensure the pivot point is set correctly to the center of the button
+        button.pivotX = button.width / 2f
+        button.pivotY = button.height / 2f
+        
+        // Create a set of animations for a more dynamic, modern effect
+        val animatorSet = android.animation.AnimatorSet()
+        
+        // Initial pulse animation
+        val scaleUpX = ObjectAnimator.ofFloat(button, "scaleX", 1f, 1.2f)
+        val scaleUpY = ObjectAnimator.ofFloat(button, "scaleY", 1f, 1.2f)
+        val scaleDownX = ObjectAnimator.ofFloat(button, "scaleX", 1.2f, 0.9f)
+        val scaleDownY = ObjectAnimator.ofFloat(button, "scaleY", 1.2f, 0.9f)
+        val scaleNormalX = ObjectAnimator.ofFloat(button, "scaleX", 0.9f, 1f)
+        val scaleNormalY = ObjectAnimator.ofFloat(button, "scaleY", 0.9f, 1f)
+        
+        // Pulse before rotation
+        val pulseSet = android.animation.AnimatorSet()
+        pulseSet.playSequentially(
+            android.animation.AnimatorSet().apply { playTogether(scaleUpX, scaleUpY) },
+            android.animation.AnimatorSet().apply { playTogether(scaleDownX, scaleDownY) },
+            android.animation.AnimatorSet().apply { playTogether(scaleNormalX, scaleNormalY) }
+        )
+        pulseSet.duration = 300
+        
+        // Create rotation animation with easing
+        val rotateAnimation = ObjectAnimator.ofFloat(button, "rotation", 0f, 360f)
+        rotateAnimation.duration = 1200
+        rotateAnimation.repeatCount = ObjectAnimator.INFINITE
+        rotateAnimation.interpolator = android.view.animation.AccelerateDecelerateInterpolator()        // Add a subtle alpha pulsing effect
+        val fadeOut = ObjectAnimator.ofFloat(button, "alpha", 1f, 0.7f)
+        fadeOut.duration = 600
+        fadeOut.repeatCount = ObjectAnimator.INFINITE
+        fadeOut.repeatMode = ObjectAnimator.REVERSE
+        
+        // Add all animations to the set - run pulse once, then start continuous rotation
+        animatorSet.play(pulseSet).before(rotateAnimation)
+        animatorSet.play(rotateAnimation).with(fadeOut)
+        animatorSet.start()
+        
+        // Create a circular reveal effect for visual feedback
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            val cx = button.width / 2
+            val cy = button.height / 2
+            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+            val anim = android.view.ViewAnimationUtils.createCircularReveal(button, cx, cy, 0f, finalRadius)
+            anim.duration = 300
+            anim.start()
+        }
+        
+        // Stop animation after 2.5 seconds (typical scan time)
+        button.postDelayed({
+            animatorSet.cancel()
+            
+            // Reset to initial state with a smooth animation
+            val resetAnimation = android.animation.AnimatorSet()
+            val resetRotate = ObjectAnimator.ofFloat(button, "rotation", button.rotation, 0f)
+            val resetAlpha = ObjectAnimator.ofFloat(button, "alpha", button.alpha, 1f)
+            resetAnimation.playTogether(resetRotate, resetAlpha)
+            resetAnimation.duration = 300
+            resetAnimation.start()
+            
+            button.isEnabled = true
+            
+            // Get appropriate message based on button id
+            val message = when (button.id) {
+                R.id.btn_refresh_videos -> "Video scan completed"
+                R.id.btn_refresh_music -> "Audio scan completed"
+                else -> "Scan completed"
+            }
+            // Show toast message
+            android.widget.Toast.makeText(
+                requireContext(),
+                message,
+                android.widget.Toast.LENGTH_SHORT
+            ).show()
+        }, 2500)
+    }
+    
+    private fun hasVideoScanPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
+    }    private fun getVideoScanPermission(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            android.Manifest.permission.READ_MEDIA_VIDEO
+        } else {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    }
+    
+    private fun hasAudioScanPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_MEDIA_AUDIO) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
+    private fun getAudioScanPermission(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            android.Manifest.permission.READ_MEDIA_AUDIO
+        } else {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    }
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

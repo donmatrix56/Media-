@@ -71,10 +71,10 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
     
     private fun loadMediaItem() {
-        lifecycleScope.launch {
-            val mediaItem = withContext(Dispatchers.IO) {
+        lifecycleScope.launch {            val mediaItem = withContext(Dispatchers.IO) {
                 mediaRepository.getMediaItemById(mediaItemId!!)
             }
+            
             if (mediaItem != null) {
                 binding.toolbar.title = mediaItem.title
                 val dataSourceFactory = DefaultDataSource.Factory(this@VideoPlayerActivity)
@@ -84,6 +84,11 @@ class VideoPlayerActivity : AppCompatActivity() {
                 player.prepare()
                 player.playWhenReady = playWhenReady
                 player.seekTo(currentPosition)
+                
+                // Update lastPlayed timestamp
+                withContext(Dispatchers.IO) {
+                    mediaRepository.updateLastPlayed(mediaItemId!!)
+                }
             } else {
                 finish()
             }

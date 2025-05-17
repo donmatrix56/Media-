@@ -17,10 +17,14 @@ import kotlinx.coroutines.withContext
 
 class MediaRepository {
     private val mediaItemDao: MediaItemDao = MediaPlusApp.database.mediaItemDao()
-    
-    // Get all media items from database
+      // Get all media items from database
     fun getAllMediaItems(): LiveData<List<MediaItem>> {
         return mediaItemDao.getAllMediaItems()
+    }
+    
+    // Get recently played items (items with lastPlayed > 0)
+    fun getRecentlyPlayedItems(): LiveData<List<MediaItem>> {
+        return mediaItemDao.getRecentlyPlayedItems()
     }
     
     // Get media items by type
@@ -42,10 +46,18 @@ class MediaRepository {
     suspend fun searchMediaItems(query: String): List<MediaItem> {
         return mediaItemDao.searchMediaItems(query)
     }
-    
-    // Update a media item
+      // Update a media item
     suspend fun updateMediaItem(mediaItem: MediaItem) {
         mediaItemDao.updateMediaItem(mediaItem)
+    }
+    
+    // Update lastPlayed timestamp for a media item
+    suspend fun updateLastPlayed(mediaItemId: String) {
+        val mediaItem = mediaItemDao.getMediaItemById(mediaItemId)
+        mediaItem?.let {
+            val updatedItem = it.copy(lastPlayed = System.currentTimeMillis())
+            mediaItemDao.updateMediaItem(updatedItem)
+        }
     }
     
     // Toggle favorite status of a media item
@@ -70,13 +82,58 @@ class MediaRepository {
             mediaItemDao.deleteMediaItem(mediaItem)
         }
     }
-    
-    // Scan device for media files
+      // Scan device for media files
     suspend fun scanMediaFiles(context: Context) {
         withContext(Dispatchers.IO) {
             val audioItems = scanAudioFiles(context)
             val videoItems = scanVideoFiles(context)
             mediaItemDao.insertMediaItems(audioItems + videoItems)
+        }
+    }    // Scan device for videos only (optimized for quicker scanning)
+    // Preserves recent files by not affecting lastPlayed timestamps
+    suspend fun scanVideoFilesOnly(context: Context) {
+        withContext(Dispatchers.IO) {
+            // Get existing media items first to preserve lastPlayed values
+            val existingItems = mediaItemDao.getAllMediaItemsSync()
+            val existingMap = existingItems.associateBy { it.uri }
+            
+            // Scan for videos
+            val videoItems = scanVideoFiles(context)
+            
+            // Process scanned items to preserve lastPlayed timestamps
+            val processedItems = videoItems.map { newItem ->
+                // If the item already exists, keep its lastPlayed value
+                existingMap[newItem.uri]?.let { existingItem ->
+                    newItem.copy(lastPlayed = existingItem.lastPlayed)
+                } ?: newItem
+            }
+            
+            // Insert merged items
+            mediaItemDao.insertMediaItems(processedItems)
+        }
+    }
+    
+    // Scan device for audio only (optimized for quicker scanning)
+    // Preserves recent files by not affecting lastPlayed timestamps
+    suspend fun scanAudioFilesOnly(context: Context) {
+        withContext(Dispatchers.IO) {
+            // Get existing media items first to preserve lastPlayed values
+            val existingItems = mediaItemDao.getAllMediaItemsSync()
+            val existingMap = existingItems.associateBy { it.uri }
+            
+            // Scan for audio files
+            val audioItems = scanAudioFiles(context)
+            
+            // Process scanned items to preserve lastPlayed timestamps
+            val processedItems = audioItems.map { newItem ->
+                // If the item already exists, keep its lastPlayed value
+                existingMap[newItem.uri]?.let { existingItem ->
+                    newItem.copy(lastPlayed = existingItem.lastPlayed)
+                } ?: newItem
+            }
+            
+            // Insert merged items
+            mediaItemDao.insertMediaItems(processedItems)
         }
     }
     
@@ -260,10 +317,19 @@ class MediaRepository {
             }
         }
     }    // Remove item from recent list only
-    fun removeFromRecent(mediaItemId: String) {
-        // Implement logic to remove from recent list (e.g., update a recent table or shared prefs)
-        // This is a placeholder; actual implementation depends on how recent is tracked
-        // Using mediaItemId here when the actual implementation is done
-        Log.d("MediaRepository", "Removing item $mediaItemId from recent")
+    suspend fun removeFromRecent(mediaItemId: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                val mediaItem = mediaItemDao.getMediaItemById(mediaItemId)
+                mediaItem?.let {
+                    // Update the item to set lastPlayed to 0 to remove it from recent list
+                    val updatedItem = it.copy(lastPlayed = 0L)
+                    mediaItemDao.updateMediaItem(updatedItem)
+                    Log.d("MediaRepository", "Removed item $mediaItemId from recent list")
+                }
+            } catch (e: Exception) {
+                Log.e("MediaRepository", "Error removing item from recent list", e)
+            }
+        }
     }
 }
