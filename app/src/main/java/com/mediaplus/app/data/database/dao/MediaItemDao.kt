@@ -16,6 +16,12 @@ interface MediaItemDao {
     @Query("SELECT * FROM media_items WHERE mediaType = :mediaType")
     fun getMediaItemsByType(mediaType: MediaType): LiveData<List<MediaItem>>
     
+    @Query("SELECT * FROM media_items WHERE mediaType = :mediaType")
+    suspend fun getMediaItemsByTypeSync(mediaType: MediaType): List<MediaItem>
+    
+    @Query("SELECT * FROM media_items WHERE mediaType = :mediaType AND (thumbnailPath IS NULL OR thumbnailPath = '')")
+    suspend fun getVideoItemsWithoutThumbnailsSync(mediaType: MediaType): List<MediaItem>
+    
     @Query("SELECT * FROM media_items WHERE isFavorite = 1")
     fun getFavoriteMediaItems(): LiveData<List<MediaItem>>
     
@@ -30,6 +36,9 @@ interface MediaItemDao {
     
     @Update
     suspend fun updateMediaItem(mediaItem: MediaItem)
+    
+    @Update
+    suspend fun updateMediaItems(mediaItems: List<MediaItem>)
       @Query("SELECT media_items.* FROM media_items INNER JOIN playlist_media_cross_ref ON media_items.id = playlist_media_cross_ref.mediaItemId WHERE playlist_media_cross_ref.playlistId = :playlistId ORDER BY playlist_media_cross_ref.position")
     suspend fun getMediaItemsForPlaylistSync(playlistId: Long): List<MediaItem>
     

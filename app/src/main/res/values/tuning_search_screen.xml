@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Search Screen Tuning Parameters -->
+    
+    <!-- Size adjustments -->
+    <dimen name="search_bar_corner_radius">24dp</dimen>
+    <item name="search_bar_height_factor" format="float" type="dimen">1.0</item>
+    <item name="search_result_item_height_factor" format="float" type="dimen">1.0</item>
+    
+    <!-- Text size adjustments -->
+    <dimen name="search_text_size">16sp</dimen>
+    <dimen name="search_result_title_text_size">16sp</dimen>
+    <dimen name="search_result_subtitle_text_size">14sp</dimen>
+    
+    <!-- Animation adjustments -->
+    <integer name="search_keyboard_animation_duration_ms">250</integer>
+    
+    <!-- Padding/Margin adjustments -->
+    <dimen name="search_bar_horizontal_margin">16dp</dimen>
+    <dimen name="search_bar_top_margin">16dp</dimen>
+    <dimen name="search_results_padding">8dp</dimen>
+    <dimen name="search_result_item_spacing">8dp</dimen>
+    
+    <!-- Color adjustments (use #00000000 for transparent/null) -->
+    <color name="search_bar_background_color">#00000000</color>
+    <color name="search_bar_icon_color">#00000000</color>
+    <color name="search_text_color">#00000000</color>
+    <color name="search_hint_color">#00000000</color>
+    <color name="search_result_title_text_color">#00000000</color>
+    <color name="search_result_subtitle_text_color">#00000000</color>
+    <color name="search_result_item_background_color">#00000000</color>
+    
+    <!-- Animation properties -->
+    <bool name="search_enable_search_bar_animation">true</bool>
+    <integer name="search_result_fade_in_duration_ms">200</integer>
+    <integer name="search_suggestion_delay_ms">200</integer>
+</resources>

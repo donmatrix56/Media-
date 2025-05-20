@@ -37,65 +37,60 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
-    
-    <!-- Button styles -->
+      <!-- Button styles -->
     <style name="Widget.MediaPlus.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textAppearance">@style/TextAppearance.MediaPlus.Button</item>
         <item name="android:letterSpacing">0.0</item>
-        <item name="cornerRadius">8dp</item>
+        <!-- Removed unused @dimen/card_corner_radius -->
     </style>
     
     <style name="Widget.MediaPlus.Button.IconOnly" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">48dp</item>
+        <!-- Removed unused @dimen/padding_medium and @dimen/control_height_medium -->
     </style>
-    
-    <!-- Text appearances -->
+      <!-- Text appearances -->
     <style name="TextAppearance.MediaPlus.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">24sp</item>
+        <!-- Removed unused @dimen/text_size_heading -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">20sp</item>
+        <!-- Removed unused @dimen/text_size_xxlarge -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="android:textSize">18sp</item>
+        <!-- Removed unused @dimen/text_size_xlarge -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">16sp</item>
+        <!-- Removed unused @dimen/text_size_large -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">14sp</item>
+        <!-- Removed unused @dimen/text_size_medium -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">12sp</item>
+        <!-- Removed unused @dimen/text_size_small -->
     </style>
     
     <style name="TextAppearance.MediaPlus.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="android:textSize">14sp</item>
+        <!-- Removed unused @dimen/text_size_medium -->
         <item name="android:letterSpacing">0.0</item>
     </style>
     

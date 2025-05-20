@@ -17,9 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
-
-    <androidx.cardview.widget.CardView
+        app:titleTextColor="@color/white" />    <androidx.cardview.widget.CardView
         android:id="@+id/card_album_art"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -30,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintWidth_percent="0.8">
+        app:layout_constraintWidth_percent="0.7">
 
         <ImageView
             android:id="@+id/img_album_art"
@@ -57,12 +55,11 @@
         app:layout_constraintTop_toBottomOf="@id/card_album_art"
         tools:text="Song Title" />
 
-    <TextView
-        android:id="@+id/txt_artist"
+    <TextView        android:id="@+id/txt_artist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:ellipsize="end"
         android:gravity="center"
@@ -86,8 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/txt_artist"
         tools:text="00:00" />
 
-    <TextView
-        android:id="@+id/txt_total_time"
+    <TextView        android:id="@+id/txt_total_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -102,8 +98,8 @@
         android:id="@+id/seek_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:progressTint="@color/primary"
         android:thumbTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="@id/txt_current_time"
@@ -111,94 +107,104 @@
         app:layout_constraintStart_toEndOf="@id/txt_current_time"
         app:layout_constraintTop_toTopOf="@id/txt_current_time" />
 
-    <LinearLayout
-        android:id="@+id/layout_controls"
+    <!-- Use HorizontalScrollView to prevent control clipping on small screens -->
+    <HorizontalScrollView
+        android:id="@+id/controls_scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:orientation="horizontal"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seek_bar">
 
-        <ImageButton
-            android:id="@+id/btn_shuffle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_shuffle"
-            android:src="@drawable/ic_shuffle"
-            app:tint="@color/secondary_text" />
-
-        <ImageButton
-            android:id="@+id/btn_previous"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_previous"
-            android:src="@drawable/ic_previous"
-            app:tint="@color/primary_text" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_play"
+        <LinearLayout
+            android:id="@+id/layout_controls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:contentDescription="@string/action_play"
-            android:src="@drawable/ic_play"
-            app:fabSize="normal"
-            app:tint="@color/white"
-            app:backgroundTint="@color/primary"
-            app:elevation="12dp"
-            app:pressedTranslationZ="16dp"
-            android:translationZ="12dp"
-            android:clipToOutline="false" />
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-        <ImageButton
-            android:id="@+id/btn_next"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_next"
-            android:src="@drawable/ic_next"
-            app:tint="@color/primary_text" />
+            <ImageButton
+                android:id="@+id/btn_shuffle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_shuffle"
+                android:src="@drawable/ic_shuffle"
+                app:tint="@color/secondary_text" />
 
-        <ImageButton
-            android:id="@+id/btn_repeat"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_repeat"
-            android:src="@drawable/ic_repeat"
-            app:tint="@color/secondary_text" />
+            <ImageButton
+                android:id="@+id/btn_previous"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_previous"
+                android:src="@drawable/ic_previous"
+                app:tint="@color/primary_text" />
 
-        <ImageButton
-            android:id="@+id/btn_equalizer"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_equalizer"
-            android:src="@drawable/ic_equalizer"
-            app:tint="@color/primary_text" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton            android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/action_play"
+                android:src="@drawable/ic_play"
+                app:fabSize="normal"
+                app:tint="@color/white"
+                app:backgroundTint="@color/primary"
+                app:elevation="12dp"
+                app:pressedTranslationZ="16dp"
+                android:translationZ="12dp"
+                android:clipToOutline="false" />
 
-        <ImageButton
-            android:id="@+id/btn_lyrics"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/action_lyrics"
-            android:src="@drawable/ic_lyrics"
-            app:tint="@color/primary_text" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/btn_next"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_next"
+                android:src="@drawable/ic_next"
+                app:tint="@color/primary_text" />
+
+            <ImageButton            android:id="@+id/btn_repeat"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_repeat"
+                android:src="@drawable/ic_repeat"
+                app:tint="@color/secondary_text" />
+
+            <ImageButton
+                android:id="@+id/btn_equalizer"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_equalizer"
+                android:src="@drawable/ic_equalizer"
+                app:tint="@color/primary_text" />
+
+            <ImageButton
+                android:id="@+id/btn_lyrics"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_lyrics"
+                android:src="@drawable/ic_lyrics"
+                app:tint="@color/primary_text" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <ProgressBar
         android:id="@+id/progress_bar"

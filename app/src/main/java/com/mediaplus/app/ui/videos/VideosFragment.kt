@@ -15,6 +15,8 @@ import com.mediaplus.app.R
 import com.mediaplus.app.databinding.FragmentVideosBinding
 import com.mediaplus.app.ui.player.VideoPlayerActivity
 import com.mediaplus.app.data.model.MediaType
+import com.mediaplus.app.utils.DimensionUtils
+import com.mediaplus.app.utils.ResponsiveUIHelper
 
 class VideosFragment : Fragment() {
 
@@ -31,12 +33,13 @@ class VideosFragment : Fragment() {
     ): View {
         _binding = FragmentVideosBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    }    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
         viewModel = ViewModelProvider(this).get(VideosViewModel::class.java)
+        
+        // Apply responsive dimensions to UI
+        ResponsiveUIHelper.getInstance(requireContext()).applyResponsiveDimensionsToLayout(binding.root)
         
         // Setup recycler view
         setupRecyclerView()
@@ -53,19 +56,22 @@ class VideosFragment : Fragment() {
             dialog.show()
         }
     }
-    
-    private fun setupRecyclerView() {
+      private fun setupRecyclerView() {
         videosAdapter = VideosAdapter { mediaItem ->
             // Handle video item click
             val intent = Intent(requireContext(), VideoPlayerActivity::class.java).apply {
                 putExtra("mediaItemId", mediaItem.id)
             }
             startActivity(intent)
-        }
-        
+        }        
         binding.recyclerVideos.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            // Use the responsive column count from DimensionUtils instead of resources
+            val columns = DimensionUtils.getInstance(requireContext()).getVideoGridColumns()
+            layoutManager = GridLayoutManager(context, columns)
             adapter = videosAdapter
+            
+            // Apply responsive dimensions to the RecyclerView
+            ResponsiveUIHelper.getInstance(requireContext()).setupResponsiveRecyclerView(this)
         }
     }
     

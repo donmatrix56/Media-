@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Video Player Tuning Parameters -->
+    
+    <!-- Size adjustments -->
+    <item name="video_control_scale_factor" format="float" type="dimen">1.0</item>
+    <item name="video_control_spacing_factor" format="float" type="dimen">1.0</item>
+    <dimen name="video_seek_bar_height">4dp</dimen>
+    
+    <!-- Opacity adjustments -->
+    <item name="video_control_opacity" format="float" type="dimen">0.75</item>
+    
+    <!-- Timing adjustments -->
+    <integer name="video_control_show_duration_ms">3000</integer>
+    <integer name="video_control_fade_duration_ms">300</integer>
+    <integer name="video_double_tap_seek_seconds">10</integer>
+    
+    <!-- Padding adjustments -->
+    <dimen name="video_control_bottom_padding">24dp</dimen>
+    <dimen name="video_control_side_padding">16dp</dimen>
+    
+    <!-- Color adjustments (use #00000000 for transparent/null) -->
+    <color name="video_control_background_color">#00000000</color>
+    <color name="video_seek_bar_played_color">#00000000</color>
+    <color name="video_seek_bar_buffered_color">#00000000</color>
+    <color name="video_seek_bar_unplayed_color">#00000000</color>
+    
+    <!-- Gesture sensitivity -->
+    <item name="video_gesture_seek_sensitivity" format="float" type="dimen">1.0</item>
+    <item name="video_gesture_volume_sensitivity" format="float" type="dimen">1.0</item>
+    <item name="video_gesture_brightness_sensitivity" format="float" type="dimen">1.0</item>
+</resources>

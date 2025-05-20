@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main Screen Tuning Parameters -->
+    
+    <!-- Size adjustments -->
+    <item name="main_navbar_height_factor" format="float" type="dimen">1.0</item>
+    <item name="main_navbar_icon_scale" format="float" type="dimen">1.0</item>
+    
+    <!-- Text adjustments -->
+    <dimen name="main_section_title_text_size">20sp</dimen>
+    
+    <!-- Spacing adjustments -->
+    <item name="main_content_spacing_factor" format="float" type="dimen">1.0</item>
+    
+    <!-- Design adjustments -->
+    <dimen name="main_card_corner_radius">20dp</dimen>
+    
+    <!-- Animation adjustments -->
+    <integer name="main_fade_transition_duration_ms">300</integer>
+    
+    <!-- Padding adjustments -->
+    <dimen name="main_content_padding_top">16dp</dimen>
+    <dimen name="main_content_padding_bottom">16dp</dimen>
+    <dimen name="main_content_padding_horizontal">16dp</dimen>
+    <dimen name="main_grid_item_spacing">8dp</dimen>
+    
+    <!-- Color adjustments (use #00000000 for transparent/null) -->
+    <color name="main_navbar_background_color">#00000000</color>
+    <color name="main_navbar_selected_icon_color">#00000000</color>
+    <color name="main_navbar_unselected_icon_color">#00000000</color>
+    
+    <!-- Card UI Controls -->
+    <dimen name="home_card_elevation">4dp</dimen>
+    <color name="home_card_background_color">#FFFFFFFF</color>
+    <color name="home_card_shadow_color">#33000000</color>
+    <dimen name="home_card_border_width">1dp</dimen>
+    <color name="home_card_border_color">#22000000</color>
+
+    <!-- Section Title Controls -->
+    <color name="home_section_title_color">#FF222222</color>
+    <item name="home_section_title_font_weight" format="integer" type="dimen">700</item>
+
+    <!-- Card width for 3 visible cards horizontally on Home screen -->
+    <dimen name="home_card_width">112dp</dimen>
+    <dimen name="home_card_min_width">96dp</dimen>
+    <dimen name="home_card_max_width">140dp</dimen>
+    <dimen name="home_card_horizontal_spacing">0dp</dimen>
+    <dimen name="home_card_horizontal_padding">0dp</dimen>
+    <!-- Card aspect ratio (height = width * ratio) -->
+    <item name="home_card_aspect_ratio" format="float" type="dimen">1.4</item>
+    <!-- Section title vertical margin -->
+    <dimen name="home_section_title_margin">12dp</dimen>
+    <!-- Section vertical spacing -->
+    <dimen name="home_section_vertical_spacing">20dp</dimen>
+
+    <!-- Show video thumbnail flag -->
+    <bool name="home_show_video_thumbnail">true</bool>
+</resources>

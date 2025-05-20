@@ -3,38 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:minHeight="160dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="160dp">
 
         <ImageView
             android:id="@+id/video_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_video" />
-
-        <View
+            tools:src="@drawable/ic_video" />        <View
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/gradient_bottom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
+            app:layout_constraintStart_toStartOf="parent" />        <TextView
             android:id="@+id/video_title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content"            
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -45,9 +43,7 @@
             app:layout_constraintBottom_toTopOf="@+id/video_duration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Video Title That Is Long Enough To Span Multiple Lines" />
-
-        <TextView
+            tools:text="Video Title That Is Long Enough To Span Multiple Lines" />        <TextView
             android:id="@+id/video_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,9 +58,7 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="03:45" />
-
-        <ImageView
+            tools:text="03:45" />        <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"

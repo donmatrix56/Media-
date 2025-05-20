@@ -191,6 +191,13 @@ class HomeFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("first_launch", false).apply()
     }    private fun setupRecentAdapter() {
+        val tuning = com.mediaplus.app.utils.TuningProvider.getInstance(requireContext())
+        val cardWidth = tuning.getHomeCardWidth().toInt().takeIf { it > 0 } ?: ((resources.displayMetrics.widthPixels - 2 * tuning.getHomeCardHorizontalPadding().toInt() - 2 * tuning.getHomeCardHorizontalSpacing().toInt()) / 3)
+        val minWidth = tuning.getHomeCardMinWidth().toInt()
+        val maxWidth = tuning.getHomeCardMaxWidth().toInt()
+        val spacing = tuning.getHomeCardHorizontalSpacing().toInt()
+        val padding = tuning.getHomeCardHorizontalPadding().toInt()
+
         val recentAdapter = MediaAdapter(
             onItemClick = { mediaItem ->
                 // Handle click based on media type
@@ -218,18 +225,30 @@ class HomeFragment : Fragment() {
             isRecentAdapter = true
         )
         binding.recyclerRecent.adapter = recentAdapter
-        binding.recyclerRecent.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerRecent.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerRecent.setPadding(padding, 0, padding, 0)
+        binding.recyclerRecent.clipToPadding = false
         binding.recyclerRecent.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
-                outRect.right = 16
+                outRect.right = spacing
                 if (parent.getChildAdapterPosition(view) == 0) {
-                    outRect.left = 16
+                    outRect.left = spacing
                 }
+                // Set card width - ensure all values are Int
+                val width = kotlin.math.max(minWidth, kotlin.math.min(cardWidth, maxWidth))
+                view.layoutParams.width = width
             }
         })
     }
     
     private fun setupVideoAdapter() {
+        val tuning = com.mediaplus.app.utils.TuningProvider.getInstance(requireContext())
+        val cardWidth = tuning.getHomeCardWidth().toInt().takeIf { it > 0 } ?: ((resources.displayMetrics.widthPixels - 2 * tuning.getHomeCardHorizontalPadding().toInt() - 2 * tuning.getHomeCardHorizontalSpacing().toInt()) / 3)
+        val minWidth = tuning.getHomeCardMinWidth().toInt()
+        val maxWidth = tuning.getHomeCardMaxWidth().toInt()
+        val spacing = tuning.getHomeCardHorizontalSpacing().toInt()
+        val padding = tuning.getHomeCardHorizontalPadding().toInt()
+
         val videoAdapter = MediaAdapter(
             onItemClick = { mediaItem ->
                 // Open video player
@@ -243,18 +262,30 @@ class HomeFragment : Fragment() {
             }
         )
         binding.recyclerVideos.adapter = videoAdapter
-        binding.recyclerVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerVideos.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerVideos.setPadding(padding, 0, padding, 0)
+        binding.recyclerVideos.clipToPadding = false
         binding.recyclerVideos.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
-                outRect.right = 16
+                outRect.right = spacing
                 if (parent.getChildAdapterPosition(view) == 0) {
-                    outRect.left = 16
+                    outRect.left = spacing
                 }
+                // Set card width - ensure all values are Int
+                val width = kotlin.math.max(minWidth, kotlin.math.min(cardWidth, maxWidth))
+                view.layoutParams.width = width
             }
         })
     }
     
     private fun setupMusicAdapter() {
+        val tuning = com.mediaplus.app.utils.TuningProvider.getInstance(requireContext())
+        val cardWidth = tuning.getHomeCardWidth().toInt().takeIf { it > 0 } ?: ((resources.displayMetrics.widthPixels - 2 * tuning.getHomeCardHorizontalPadding().toInt() - 2 * tuning.getHomeCardHorizontalSpacing().toInt()) / 3)
+        val minWidth = tuning.getHomeCardMinWidth().toInt()
+        val maxWidth = tuning.getHomeCardMaxWidth().toInt()
+        val spacing = tuning.getHomeCardHorizontalSpacing().toInt()
+        val padding = tuning.getHomeCardHorizontalPadding().toInt()
+
         val musicAdapter = MediaAdapter(
             onItemClick = { mediaItem ->
                 // Open audio player
@@ -268,13 +299,18 @@ class HomeFragment : Fragment() {
             }
         )
         binding.recyclerMusic.adapter = musicAdapter
-        binding.recyclerMusic.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerMusic.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerMusic.setPadding(padding, 0, padding, 0)
+        binding.recyclerMusic.clipToPadding = false
         binding.recyclerMusic.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: android.graphics.Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
-                outRect.right = 16
+                outRect.right = spacing
                 if (parent.getChildAdapterPosition(view) == 0) {
-                    outRect.left = 16
+                    outRect.left = spacing
                 }
+                // Set card width - ensure all values are Int
+                val width = kotlin.math.max(minWidth, kotlin.math.min(cardWidth, maxWidth))
+                view.layoutParams.width = width
             }
         })
     }    // Animate the refresh button during scanning with a modern animation

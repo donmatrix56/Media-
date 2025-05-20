@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash Screen Tuning Parameters -->
+    
+    <!-- Duration -->
+    <integer name="splash_duration_ms">1500</integer>
+    
+    <!-- Size adjustments -->
+    <item name="splash_logo_scale_factor" format="float" type="dimen">1.0</item>
+    <item name="splash_animation_scale_factor" format="float" type="dimen">1.0</item>
+    
+    <!-- Color adjustments -->
+    <color name="splash_background_color">#FF1A1A2E</color>
+    <color name="splash_text_color">#FFE6E6E6</color>
+    <item name="splash_alpha" format="float" type="dimen">1.0</item>
+    
+    <!-- Animation adjustments -->
+    <integer name="splash_fade_in_duration_ms">400</integer>
+    <item name="splash_logo_bounce_factor" format="float" type="dimen">1.0</item>
+    
+    <!-- Position adjustments (percentage of screen height from top) -->
+    <item name="splash_logo_position_y" format="float" type="dimen">0.4</item>
+</resources>

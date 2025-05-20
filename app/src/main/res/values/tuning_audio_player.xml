@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Audio Player Tuning Parameters -->
+    
+    <!-- Size adjustments -->
+    <item name="audio_album_art_size_factor" format="float" type="dimen">1.0</item>
+    <item name="audio_control_scale_factor" format="float" type="dimen">1.0</item>
+    <item name="audio_control_spacing_factor" format="float" type="dimen">1.0</item>
+    <dimen name="audio_seek_bar_height">4dp</dimen>
+    
+    <!-- Text size adjustments -->
+    <dimen name="audio_title_text_size">24sp</dimen>
+    <dimen name="audio_artist_text_size">18sp</dimen>
+    <dimen name="audio_time_text_size">14sp</dimen>
+    
+    <!-- Design adjustments -->
+    <dimen name="audio_album_art_corner_radius">12dp</dimen>
+    <dimen name="audio_album_art_elevation">8dp</dimen>
+    
+    <!-- Color adjustments (use #00000000 for transparent/null) -->
+    <color name="audio_player_background_color">#00000000</color>
+    <color name="audio_title_text_color">#00000000</color>
+    <color name="audio_artist_text_color">#00000000</color>
+    <color name="audio_time_text_color">#00000000</color>
+    <color name="audio_seek_bar_played_color">#00000000</color>
+    <color name="audio_seek_bar_unplayed_color">#00000000</color>
+    <color name="audio_control_tint_color">#00000000</color>
+    
+    <!-- Animation adjustments -->
+    <item name="audio_album_art_scale_during_transition" format="float" type="dimen">0.85</item>
+    <integer name="audio_transition_duration_ms">400</integer>
+    <item name="audio_visualizer_sensitivity" format="float" type="dimen">1.0</item>
+    <item name="audio_visualizer_height_factor" format="float" type="dimen">1.0</item>
+</resources>

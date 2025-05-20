@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.videos.VideosFragment">
-    
-    <TextView
+    tools:context=".ui.videos.VideosFragment">      <TextView
         android:id="@+id/title_videos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,12 +16,10 @@
         android:textColor="@color/primary_text"
         app:layout_constraintEnd_toStartOf="@+id/btn_sort_videos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
+        app:layout_constraintTop_toTopOf="parent" />    <ImageButton
         android:id="@+id/btn_sort_videos"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_filter_list"
@@ -31,10 +27,8 @@
         android:tint="@color/primary_text"
         app:layout_constraintStart_toEndOf="@id/title_videos"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_videos"
+        app:layout_constraintEnd_toEndOf="parent" />    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_videos"        
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -61,15 +55,15 @@
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:src="@drawable/ic_video"
             app:tint="@color/secondary_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/msg_no_media_found"
             android:textAppearance="@style/TextAppearance.MediaPlus.Subtitle1"
             android:textColor="@color/secondary_text" />

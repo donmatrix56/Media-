@@ -110,6 +110,49 @@ class MediaRepository {
             
             // Insert merged items
             mediaItemDao.insertMediaItems(processedItems)
+            
+            // Update thumbnails for any videos that might be missing them
+            updateVideoThumbnails()
+        }
+    }
+    
+    // Update thumbnails for videos that might be missing them
+    private suspend fun updateVideoThumbnails() {
+        withContext(Dispatchers.IO) {
+            try {
+                // Get all video items
+                val videos = mediaItemDao.getMediaItemsByTypeSync(MediaType.VIDEO)
+                val updatedItems = mutableListOf<MediaItem>()
+                
+                videos.forEach { video ->
+                    if (video.thumbnailPath.isNullOrBlank()) {
+                        // Extract ID from the URI
+                        val idStr = video.uri.substringAfterLast("/")
+                        val id = idStr.toLongOrNull()
+                        if (id != null) {
+                            // Create thumbnail URI
+                            val thumbnailUri = Uri.withAppendedPath(
+                                Uri.parse("content://media/external/video/media"),
+                                "$id/thumbnail"
+                            )
+                            // Update the item with the thumbnail path
+                            updatedItems.add(video.copy(thumbnailPath = thumbnailUri.toString()))
+                        } else {
+                            Log.w("MediaRepository", "Could not extract numeric ID from URI: $idStr")
+                        }
+                    }
+                }
+                
+                if (updatedItems.isNotEmpty()) {
+                    // Update the items with thumbnails
+                    mediaItemDao.updateMediaItems(updatedItems)
+                    Log.d("MediaRepository", "Updated thumbnails for "+updatedItems.size+" videos")
+                } else {
+                    // No items to update
+                }
+            } catch (e: Exception) {
+                Log.e("MediaRepository", "Error updating video thumbnails", e)
+            }
         }
     }
     
@@ -257,6 +300,11 @@ class MediaRepository {
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                         cursor.getLong(idColumn)
                     )
+                      // Generate thumbnail path for the video
+                    val thumbnailUri = Uri.withAppendedPath(
+                        Uri.parse("content://media/external/video/media"),
+                        "${cursor.getLong(idColumn)}/thumbnail"
+                    )
                     
                     val mediaItem = MediaItem(
                         id = id,
@@ -266,7 +314,7 @@ class MediaRepository {
                         uri = contentUri.toString(),
                         mediaType = MediaType.VIDEO,
                         mimeType = cursor.getString(mimeTypeColumn),
-                        thumbnailPath = null,  // Will be loaded separately
+                        thumbnailPath = thumbnailUri.toString(),
                         dateAdded = cursor.getLong(dateAddedColumn),
                         size = cursor.getLong(sizeColumn)                    )
                     videoItems.add(mediaItem)

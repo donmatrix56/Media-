@@ -10,6 +10,9 @@ import com.mediaplus.app.R
 import com.mediaplus.app.data.model.MediaItem
 import com.mediaplus.app.data.model.MediaType
 import com.mediaplus.app.databinding.ItemMediaBinding
+import com.mediaplus.app.utils.DimensionUtils
+import com.mediaplus.app.utils.setupAsAudioListItem
+import com.mediaplus.app.utils.setupWithCardAspectRatio
 import java.util.concurrent.TimeUnit
 
 class MediaAdapter(
@@ -28,31 +31,60 @@ class MediaAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    inner class ViewHolder(private val binding: ItemMediaBinding) :
+    }    inner class ViewHolder(private val binding: ItemMediaBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
+            // Apply responsive dimensions to the item
+            binding.root.setupWithCardAspectRatio()
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClick(getItem(position))
                 }
             }
-        }        fun bind(mediaItem: MediaItem) {
+        }fun bind(mediaItem: MediaItem) {
             binding.mediaTitle.text = mediaItem.title
-            
             // Set subtitle based on media type
             when (mediaItem.mediaType) {
                 MediaType.AUDIO -> binding.mediaSubtitle.text = mediaItem.artist ?: "Unknown Artist"
                 MediaType.VIDEO -> binding.mediaSubtitle.text = formatDuration(mediaItem.duration)
                 else -> binding.mediaSubtitle.text = ""
             }
-            
             // Set appropriate icon based on media type
             val iconRes = if (mediaItem.mediaType == MediaType.AUDIO) R.drawable.ic_music else R.drawable.ic_video
-              // Background gradient visibility
+
+            // Check tuning flag for video thumbnail
+            val showVideoThumbnail = binding.root.context.resources.getBoolean(
+                binding.root.context.resources.getIdentifier(
+                    "home_show_video_thumbnail",
+                    "bool",
+                    binding.root.context.packageName
+                )
+            )
+
+            if (mediaItem.mediaType == MediaType.VIDEO) {
+                if (showVideoThumbnail && !mediaItem.thumbnailPath.isNullOrBlank()) {
+                    // Show the video thumbnail
+                    binding.backgroundGradient.visibility = android.view.View.GONE
+                    binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                    Glide.with(binding.root.context)
+                        .load(mediaItem.thumbnailPath)
+                        .placeholder(iconRes)
+                        .error(iconRes)
+                        .centerCrop()
+                        .into(binding.mediaThumbnail)
+                } else {
+                    // Show icon only, no thumbnail
+                    binding.backgroundGradient.visibility = android.view.View.VISIBLE
+                    binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER
+                    binding.mediaThumbnail.setImageResource(iconRes)
+                    binding.mediaThumbnail.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
+                }
+                return
+            }
+
+            // Background gradient visibility
             if (mediaItem.thumbnailPath.isNullOrBlank()) {
                 binding.backgroundGradient.visibility = android.view.View.VISIBLE
                 
@@ -95,14 +127,11 @@ class MediaAdapter(
                     binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER
                     binding.mediaThumbnail.setImageResource(iconRes)
                     binding.mediaThumbnail.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
-                }
-            } else {
-                binding.backgroundGradient.visibility = android.view.View.GONE
+                }            } else {                binding.backgroundGradient.visibility = android.view.View.GONE
                 binding.mediaThumbnail.clearColorFilter()
-                
-                // Load thumbnail
+                  // Load thumbnail
                 Glide.with(binding.root.context)
-                    .load(mediaItem.thumbnailPath ?: mediaItem.uri)
+                    .load(mediaItem.thumbnailPath)
                     .placeholder(iconRes)
                     .error(iconRes)
                     .apply { if (mediaItem.mediaType == MediaType.AUDIO) fitCenter() else centerCrop() }

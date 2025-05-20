@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mediaplus.app.R
@@ -68,9 +69,10 @@ class MusicFragment : Fragment() {
                 showOptionsMenu(mediaItem, view)
             }
         )
-        
         binding.recyclerMusic.apply {
-            layoutManager = LinearLayoutManager(context)
+            // Use the responsive column count from DimensionUtils
+            val columns = com.mediaplus.app.utils.DimensionUtils.getInstance(requireContext()).getAudioGridColumns()
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, columns)
             adapter = musicAdapter
         }
     }

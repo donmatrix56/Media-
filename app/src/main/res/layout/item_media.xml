@@ -3,22 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="140dp"
-    android:layout_height="180dp"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="@dimen/main_card_corner_radius"
     app:strokeWidth="0dp"
     app:cardBackgroundColor="@color/surface"
     app:cardUseCompatPadding="true"
     app:contentPadding="0dp"
     android:layout_margin="4dp"
-    app:cardPreventCornerOverlap="true">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    app:cardPreventCornerOverlap="true"
+    android:minHeight="160dp">    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:elevation="0dp">        <View
+        android:elevation="0dp"><View
             android:id="@+id/background_gradient"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
