@@ -50,9 +50,12 @@ class MediaAdapter(
                 MediaType.AUDIO -> binding.mediaSubtitle.text = mediaItem.artist ?: "Unknown Artist"
                 MediaType.VIDEO -> binding.mediaSubtitle.text = formatDuration(mediaItem.duration)
                 else -> binding.mediaSubtitle.text = ""
-            }
-            // Set appropriate icon based on media type
+            }            // Set appropriate icon based on media type
             val iconRes = if (mediaItem.mediaType == MediaType.AUDIO) R.drawable.ic_music else R.drawable.ic_video
+            
+            // Set the media type icon in the top corner, but only for recent items
+            binding.mediaTypeIcon.setImageResource(iconRes)
+            binding.mediaTypeIcon.visibility = if (isRecentAdapter) android.view.View.VISIBLE else android.view.View.GONE
 
             // Check tuning flag for video thumbnail
             val showVideoThumbnail = binding.root.context.resources.getBoolean(
@@ -73,15 +76,14 @@ class MediaAdapter(
                         .placeholder(iconRes)
                         .error(iconRes)
                         .centerCrop()
-                        .into(binding.mediaThumbnail)
-                } else {
+                        .into(binding.mediaThumbnail)                } else {
                     // Show icon only, no thumbnail
                     binding.backgroundGradient.visibility = android.view.View.VISIBLE
                     binding.mediaThumbnail.scaleType = android.widget.ImageView.ScaleType.CENTER
                     binding.mediaThumbnail.setImageResource(iconRes)
                     binding.mediaThumbnail.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
                 }
-                return
+                // Don't return here, continue to set up remove button for all items
             }
 
             // Background gradient visibility
@@ -135,8 +137,9 @@ class MediaAdapter(
                     .placeholder(iconRes)
                     .error(iconRes)
                     .apply { if (mediaItem.mediaType == MediaType.AUDIO) fitCenter() else centerCrop() }
-                    .into(binding.mediaThumbnail)
-            }// Configure remove button
+                    .into(binding.mediaThumbnail)            }
+            
+            // Configure remove button - ensure it's visible for all media types in Recent Files
             binding.mediaRemove.apply {
                 // Make remove button more prominent and always visible for recent items
                 if (isRecentAdapter) {

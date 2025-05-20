@@ -67,7 +67,31 @@
             android:src="@drawable/ic_play"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/white" />
+            app:tint="@color/white" />        <ImageView
+            android:id="@+id/video_remove"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_remove_circle"
+            android:elevation="10dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_remove"
+            android:contentDescription="Remove"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />        <ImageView
+            android:id="@+id/media_type_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="6dp"
+            android:background="#FF0000"
+            android:elevation="30dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_video"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

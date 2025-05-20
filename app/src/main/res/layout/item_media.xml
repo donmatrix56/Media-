@@ -99,7 +99,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_video"
             app:tint="@android:color/white" />
-            
+
         <ImageView
             android:id="@+id/media_remove"
             android:layout_width="28dp"
